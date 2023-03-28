@@ -54,7 +54,7 @@ def main():
         o.better_draw_triangles(
             history + [res],
             f"nelder_mead_better_triangles_{starting_point}.png",
-            present=True)
+            present=False)
 
         print("--------------------------------------------------------")
 
