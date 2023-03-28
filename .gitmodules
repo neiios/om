@@ -1,0 +1,3 @@
+[submodule "om-docs"]
+	path = om-docs
+	url = git@github.com:richard96292/om-docs.git
