@@ -10,6 +10,9 @@ def gradient_descent(gradf, start, learning_rate=1, tolerance=0.001):
     while True:
         gradxi = gradf(xi)  # Find gradient at point X_i
         function_uses += 1
+        if np.linalg.norm(gradxi) == 0:
+            print("Gradient is zero!")
+            return steps, xi, function_uses
 
         xi = xi - learning_rate * gradxi  # Find X_i+1 = X_i - gamma * gradf(X_i)
         steps.append(xi)  # stat tracing
@@ -68,6 +71,9 @@ def steepest_descent(f, gradf, start, tolerance=0.001):
     while True:
         gradxi = gradf(xi)  # Find gradient at point X_i
         function_uses += 1
+        if np.linalg.norm(gradxi) == 0:
+            print("Gradient is zero!")
+            return steps, xi, function_uses, stats_additional
 
         learning_rate, stats = golden_section(
             xi, gradxi, f
