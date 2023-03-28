@@ -21,7 +21,9 @@ def main():
     a = 6
     b = 9
     starting_points = np.array([[0, 0], [1, 1], [a / 10, b / 10]])
-    o.create_3d_plot(f, starting_points, "starting-points.png")
+    o.better_3d_plot(f, starting_points, "starting_points.png")
+
+    os.system("rm -rf *.png")
 
     for starting_point in starting_points:
         print("--------------------------------------------------------")
@@ -31,16 +33,28 @@ def main():
         history, res, function_uses = dm.gradient_descent(
             gradf, starting_point)
         o.print_results(function_uses, history, res, len(history) - 1)
+        o.better_3d_plot(f, history,
+                         f"gradient_descent_3d_{starting_point}.png")
+        o.better_contour_plot(
+            history, f"gradient_descent_contour_{starting_point}.png")
 
         print(f"\nSteepest descent:")
         history, res, function_uses, stats_additional = dm.steepest_descent(
             f, gradf, starting_point)
         o.print_results(function_uses, history, res,
                         len(history) - 1, stats_additional)
+        o.better_3d_plot(f, history,
+                         f"steepest_descent_3d_{starting_point}.png")
+        o.better_contour_plot(
+            history, f"steepest_descent_contour_{starting_point}.png")
 
         print(f"\nNelder-Mead:")
         res, history, function_uses = nm.nelder_mead(f, starting_point)
         o.print_results(function_uses, history, res, len(history))
+        o.better_draw_triangles(
+            history + [res],
+            f"nelder_mead_better_triangles_{starting_point}.png",
+            present=True)
 
         print("--------------------------------------------------------")
 
