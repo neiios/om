@@ -73,25 +73,6 @@ def shrink(f, points, gamma=0.5):
     return X
 
 
-def plot_triangle(simplex, xr, centroid, filename="nelder_mead.png"):
-    # Plot For Testing
-    xs = [x['coords'][0] for x in simplex]
-    ys = [x['coords'][1] for x in simplex]
-
-    xs.append(simplex[0]['coords'][0])
-    ys.append(simplex[0]['coords'][1])
-
-    plt.plot(xs, ys, 'ro-')
-    plt.plot(centroid['coords'][0], centroid['coords'][1], 'bo')
-    plt.plot(xr['coords'][0], xr['coords'][1], 'go')
-
-    plt.plot()
-
-    plt.axis([-2, 2, -2, 2])
-    plt.savefig(filename)
-    plt.close()
-
-
 def nelder_mead(f, starting_point, tolerance=0.001):
     # Stat tracing
     triangles = []
