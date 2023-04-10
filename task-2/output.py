@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
+import os
 import pprint as pprint
 
 
@@ -69,7 +69,9 @@ def better_3d_plot(f, points, filename, show=False):
     plt.title("I = [0,1]", y=1.04)
 
     # Show the plot
-    plt.savefig(filename)
+    if not os.path.exists('figures'):
+        os.mkdir('figures')
+    plt.savefig("figures/" + filename)
     if show:
         plt.show()
     plt.close()
@@ -121,7 +123,9 @@ def better_contour_plot(points, filename, show=False):
     ax.set_xlabel('x1')
     ax.set_ylabel('x2')
     # plt.title(plotTitle, y=1.04)
-    plt.savefig(filename)
+    if not os.path.exists('figures'):
+        os.mkdir('figures')
+    plt.savefig("figures/" + filename)
     if show:
         plt.show()
     plt.close()
@@ -141,24 +145,12 @@ def better_draw_triangles(history, filename, present=False, show=False):
             plt.savefig(filename)
             input("Press Enter to continue...")
 
-    plt.savefig(filename)
+    if not os.path.exists('figures'):
+        os.mkdir('figures')
+    plt.savefig("figures/" + filename)
     if show:
         plt.show()
     plt.close()
-
-
-def print_results_old(f, steps, x, function_name: str) -> None:
-    print(function_name)
-    print(f'Starting point: {steps.pop(0)}')
-    print("List of values the algorithm calculated:")
-    for step in steps:
-        print(f'{step}')
-
-    print("-----------------")
-    print(
-        f'The algorithm made {len(steps)} steps, the function was called {len(steps)*2} times,\nthe final point is {x},\nvalue of the function at this point is {f(x)}'
-    )
-    print("--------------------------------------------------------")
 
 
 def print_results(function_uses: int,
@@ -168,18 +160,21 @@ def print_results(function_uses: int,
                   additional_task_stats: dict = {}) -> None:
     print(f'Objective function was used {function_uses} times.')
     print(f'Objective function made {iterations} iterations.')
-    print(f'Algorithm\'s results:')
+    print('Algorithm\'s results:')
     pprint.pprint(res)
 
     if 'iterations' and 'function_uses' and 'count' in additional_task_stats:
         print(
-            f'Algorithm used {additional_task_stats["count"]} additional tasks.'
+            f'Algorithm used {additional_task_stats["count"]}'
+            'additional tasks.'
         )
         print(
-            f'Additional tasks did {additional_task_stats["iterations"]} iterations in total.'
+            f'Additional tasks did {additional_task_stats["iterations"]}'
+            'iterations in total.'
         )
         print(
-            f'Additional tasks used the objective function {additional_task_stats["function_uses"]} times.'
+            'Additional tasks used the objective function'
+            f'{additional_task_stats["function_uses"]} times.'
         )
 
     print("History:")

@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 
 import nelder_mead as nm
@@ -23,13 +22,11 @@ def main():
     starting_points = np.array([[0, 0], [1, 1], [a / 10, b / 10]])
     o.better_3d_plot(f, starting_points, "starting_points.png")
 
-    os.system("rm -rf *.png")
-
     for starting_point in starting_points:
         print("--------------------------------------------------------")
         print(f"Starting point is [{starting_point[0]}, {starting_point[1]}]")
 
-        print(f"\nGradient descent:")
+        print("\nGradient descent:")
         history, res, function_uses = dm.gradient_descent(
             gradf, starting_point)
         o.print_results(function_uses, history, res, len(history) - 1)
@@ -38,7 +35,7 @@ def main():
         o.better_contour_plot(
             history, f"gradient_descent_contour_{starting_point}.png")
 
-        print(f"\nSteepest descent:")
+        print("\nSteepest descent:")
         history, res, function_uses, stats_additional = dm.steepest_descent(
             f, gradf, starting_point)
         o.print_results(function_uses, history, res,
@@ -48,7 +45,7 @@ def main():
         o.better_contour_plot(
             history, f"steepest_descent_contour_{starting_point}.png")
 
-        print(f"\nNelder-Mead:")
+        print("\nNelder-Mead:")
         res, history, function_uses = nm.nelder_mead(f, starting_point)
         o.print_results(function_uses, history, res, len(history))
         o.better_draw_triangles(
