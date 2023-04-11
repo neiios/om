@@ -89,7 +89,7 @@ def configurePlot(ax):
 def better_contour_plot(points, filename, show=False):
     fig, ax = plt.subplots()
 
-    X, Y = np.meshgrid(np.arange(0, 0.7, 0.001), np.arange(0, 0.7, 0.001))
+    X, Y = np.meshgrid(np.arange(0, 1.1, 0.001), np.arange(0, 1.1, 0.001))
     Z = -0.125 * X * Y * (1 - X - Y)
 
     CS = ax.contour(X, Y, Z, 15, linewidths=0.3)
@@ -98,23 +98,23 @@ def better_contour_plot(points, filename, show=False):
     x_points = [{
         'val': point[0],
         'num': i + 1
-    } for i, point in enumerate(points)
-                if (i % 5 == 0 or i == len(points) - 1) and i != 0]
+    } for i, point in enumerate(points)]
+    # if (i % 5 == 0 or i == len(points) - 1) and i != 0]
     y_points = [{
         'val': point[1],
         'num': i + 1
-    } for i, point in enumerate(points)
-                if (i % 5 == 0 or i == len(points) - 1) and i != 0]
+    } for i, point in enumerate(points)]
+    # if (i % 5 == 0 or i == len(points) - 1) and i != 0]
 
     x_points_val = [x['val'] for x in x_points]
     y_points_val = [y['val'] for y in y_points]
     ax.plot(x_points_val, y_points_val, 'bo-')
 
-    for i in range(len(x_points)):
-        ax.annotate(x_points[i]['num'],
-                    xy=(x_points[i]['val'], y_points[i]['val']),
-                    xytext=(7, 0),
-                    textcoords='offset points')
+    # for i in range(len(x_points)):
+    #     ax.annotate(x_points[i]['num'],
+    #                 xy=(x_points[i]['val'], y_points[i]['val']),
+    #                 xytext=(7, 0),
+    #                 textcoords='offset points')
 
     # ax.set_xlim([0.2, 0.6])  # set x-axis limits
     # ax.set_ylim([0.2, 0.5])  # set y-axis limits
@@ -157,25 +157,20 @@ def print_results(function_uses: int,
                   history: list,
                   res,
                   iterations: int,
-                  additional_task_stats: dict = {}) -> None:
+                  additional_task_stats: dict = {},
+                  stats_val=[]) -> None:
     print(f'Objective function was used {function_uses} times.')
     print(f'Objective function made {iterations} iterations.')
     print('Algorithm\'s results:')
     pprint.pprint(res)
 
     if 'iterations' and 'function_uses' and 'count' in additional_task_stats:
-        print(
-            f'Algorithm used {additional_task_stats["count"]}'
-            'additional tasks.'
-        )
-        print(
-            f'Additional tasks did {additional_task_stats["iterations"]}'
-            'iterations in total.'
-        )
-        print(
-            'Additional tasks used the objective function'
-            f'{additional_task_stats["function_uses"]} times.'
-        )
+        print(f'Algorithm used {additional_task_stats["count"]} '
+              'additional tasks.')
+        print(f'Additional tasks did {additional_task_stats["iterations"]} '
+              'iterations in total.')
+        print('Additional tasks used the objective function '
+              f'{additional_task_stats["function_uses"]} times.')
 
     print("History:")
     for point in history:
