@@ -67,13 +67,12 @@ def bisection(l, r, deltax):
 def golden_section(l, r, deltax):
     stats = {'steps': 0, 'call_count': 0, 'points': [], 'interval': []}
 
-    t = (-1 + math.sqrt(5)) / 2
-
     # Step 1
+    t = (-1 + math.sqrt(5)) / 2
     L = r - l
     x1 = r - t * L
-    fx1 = f(x1, stats)
     x2 = l + t * L
+    fx1 = f(x1, stats)
     fx2 = f(x2, stats)
     stats['points'].append((x1 + x2) / 2)  # Save a point
     stats['interval'].append(L)  # Save interval
