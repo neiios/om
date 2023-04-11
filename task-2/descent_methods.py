@@ -2,24 +2,23 @@ import numpy as np
 import math
 
 
-def gradient_descent(gradf, start, learning_rate=1, tolerance=0.001):
+def gradient_descent(f, gradf, start, learning_rate=1, tolerance=0.001):
     steps = [start]  # stat tracing
+    steps_val = [f(start)]
     function_uses = 0
     xi = start
 
     while True:
         gradxi = gradf(xi)  # Find gradient at point X_i
-        function_uses += 1
-        if np.linalg.norm(gradxi) == 0:
-            print("Gradient is zero!")
-            return steps, xi, function_uses
+        function_uses += 2
 
         xi = xi - learning_rate * gradxi  # Find X_i+1 = X_i - gamma * gradf(X_i)
         steps.append(xi)  # stat tracing
+        steps_val.append((start))
 
         if np.linalg.norm(learning_rate * gradxi) < tolerance:
             break
-    return steps, xi, function_uses
+    return steps, xi, function_uses, steps_val
 
 
 def golden_section(xi, gradxi, func, l=0, r=5, deltax=0.001):
@@ -64,16 +63,14 @@ def golden_section(xi, gradxi, func, l=0, r=5, deltax=0.001):
 
 def steepest_descent(f, gradf, start, tolerance=0.001):
     steps = [start]  # stat tracing
+    steps_val = [f(start)]
     stats_additional = {"function_uses": 0, "iterations": 0, "count": 0}
     function_uses = 0
     xi = start
 
     while True:
         gradxi = gradf(xi)  # Find gradient at point X_i
-        function_uses += 1
-        if np.linalg.norm(gradxi) == 0:
-            print("Gradient is zero!")
-            return steps, xi, function_uses, stats_additional
+        function_uses += 2
 
         learning_rate, stats = golden_section(
             xi, gradxi, f
@@ -85,7 +82,8 @@ def steepest_descent(f, gradf, start, tolerance=0.001):
 
         xi = xi - learning_rate * gradxi  # Find X_i+1 = X_i - gamma * gradf(X_i)
         steps.append(xi)  # stat tracing
+        steps_val.append((start))
 
         if np.linalg.norm(learning_rate * gradxi) < tolerance:
             break
-    return steps, xi, function_uses, stats_additional
+    return steps, xi, function_uses, stats_additional, steps_val
