@@ -65,7 +65,13 @@ def bisection(l, r, deltax):
 
 
 def golden_section(l, r, deltax):
-    stats = {'steps': 0, 'call_count': 0, 'points': [], 'interval': []}
+    stats = {
+        'steps': 0,
+        'call_count': 0,
+        "intervals": [],
+        'points': [],
+        'interval': []
+    }
 
     # Step 1
     t = (-1 + math.sqrt(5)) / 2
@@ -75,6 +81,7 @@ def golden_section(l, r, deltax):
     fx1 = f(x1, stats)
     fx2 = f(x2, stats)
     stats['points'].append((x1 + x2) / 2)  # Save a point
+    stats['intervals'].append((l, r))
     stats['interval'].append(L)  # Save interval
 
     while True:
@@ -99,6 +106,7 @@ def golden_section(l, r, deltax):
             fx1 = f(x1, stats)
 
         stats['points'].append((x1 + x2) / 2)  # Save a point
+        stats['intervals'].append((l, r))
         stats['interval'].append(L)  # Save interval
 
         # Step 4
@@ -173,8 +181,16 @@ def print_results(algo_name: str, res):
 
     print("-------------------")
     print("Algorithm used these points:")
-    for point, interval in zip(res[1]['points'], res[1]['interval']):
-        print(f'Point: {point:.20f}, interval: {interval:.20f}')
+    if algo_name == "Golden-section search: ":
+        for point, interval, intervals in zip(res[1]['points'],
+                                              res[1]['interval'],
+                                              res[1]['intervals']):
+            print(
+                f'Point: {point:.20f}, interval: {interval:.20f}, l: {intervals[0]:.20f}, r: {intervals[1]:.20f}'
+            )
+    else:
+        for point, interval in zip(res[1]['points'], res[1]['interval']):
+            print(f'Point: {point:.20f}, interval: {interval:.20f}')
 
 
 def main():
