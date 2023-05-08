@@ -53,7 +53,7 @@ def optimize(
     equality_constraints: list[Callable[[list[float]], float]],
     inequality_constraints: list[Callable[[list[float]], float]],
 ):
-    r = 1
+    r = 4
     total_function_calls = 0
 
     current_point = starting_point
@@ -66,7 +66,7 @@ def optimize(
         total_function_calls += function_calls
 
         print(
-            f"Iteracija {i}, dabartinis taškas: {new_point}, baudos funkcijos reikšmė: {b_wrapped(new_point)}"
+            f"Iteracija {i}, dabartinis taškas: {new_point}, baudos funkcijos reikšmė: {b_wrapped(new_point)}, r: {r}"
         )
 
         if np.linalg.norm(new_point - current_point) <= 0.001:
@@ -85,12 +85,13 @@ def main():
     for point in points:
         print("----------------------------------")
         print(f"Pradinis taškas: {point}")
+        print(f"Baudos funkcija pradiniame taške, kai r = 4: {b(point, 4, eqc, ineqc)}")
         print(f"Funkcijos reikšmė: {f(point)}")
 
         print("Lygybinių apribojimų reikšmės:")
         print(f"{eq_constraint(point)}")
 
-        print("Nelygybinių apribijimų reikšmės:")
+        print("Nelygybinių apribojimų reikšmės:")
         print(f"{ineq_constraint1(point)}")
         print(f"{ineq_constraint2(point)}")
         print(f"{ineq_constraint3(point)}")
@@ -104,7 +105,7 @@ def main():
         print(f"kai r = 0.04: {b(point,0.04, eqc, ineqc)}")
 
         print(
-            f"Minumumo taškas ir funkcijos iškvietimų skaičius: {optimize(point, eqc, ineqc)}"
+            f"Minimumo taškas ir funkcijos iškvietimų skaičius: {optimize(point, eqc, ineqc)}"
         )
 
 

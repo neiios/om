@@ -4,7 +4,7 @@ import copy
 
 
 def generate_points(
-    f, starting_point, alpha=1
+    f, starting_point, alpha=0.5
 ):  # Alpha is basically the length of the side of the initial simplex
     x0 = np.array(starting_point)
     n = len(x0)
@@ -83,7 +83,7 @@ def nelder_mead(f, starting_point, tolerance=0.001):
 
     n = len(simplex) - 1  # Number of variables
 
-    while True:
+    for i in range(1, 50):
         # Select Worst Point
         worst_points_index = find_worst_points_index(simplex)
 
