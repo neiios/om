@@ -23,8 +23,11 @@ def ineq_constraint3(x: list[float]) -> float:
     return -1 * x[2]
 
 
-def penalty(x: list[float], equality_constraints: list[Callable[[list[float]], float]],
-            inequality_constraints: list[Callable[[list[float]], float]]) -> float:
+def penalty(
+    x: list[float],
+    equality_constraints: list[Callable[[list[float]], float]],
+    inequality_constraints: list[Callable[[list[float]], float]],
+) -> float:
     temp_sum = [0, 0]
 
     for equality_constraint in equality_constraints:
@@ -36,23 +39,35 @@ def penalty(x: list[float], equality_constraints: list[Callable[[list[float]], f
     return temp_sum[0] + temp_sum[1]
 
 
-def b(x: list[float], r: float, equality_constraints: list[Callable[[list[float]], float]],
-      inequality_constraint: list[Callable[[list[float]], float]]):
+def b(
+    x: list[float],
+    r: float,
+    equality_constraints: list[Callable[[list[float]], float]],
+    inequality_constraint: list[Callable[[list[float]], float]],
+):
     return f(x) + (1 / r) * penalty(x, equality_constraints, inequality_constraint)
 
 
-def optimize(starting_point: list[float], equality_constraints: list[Callable[[list[float]], float]],
-             inequality_constraints: list[Callable[[list[float]], float]]):
+def optimize(
+    starting_point: list[float],
+    equality_constraints: list[Callable[[list[float]], float]],
+    inequality_constraints: list[Callable[[list[float]], float]],
+):
     r = 1
     total_function_calls = 0
 
     current_point = starting_point
+    print("---------------")
     for i in range(1, 100):
         b_wrapped = lambda x: b(x, r, equality_constraints, inequality_constraints)
         simplex, _, function_calls = nelder_mead(b_wrapped, current_point)
         new_point = simplex[find_best_points_index(simplex)]["coords"]
         r = r / 2
         total_function_calls += function_calls
+
+        print(
+            f"Iteracija {i}, dabartinis taškas: {new_point}, baudos funkcijos reikšmė: {b_wrapped(new_point)}"
+        )
 
         if np.linalg.norm(new_point - current_point) <= 0.001:
             current_point = new_point
@@ -72,15 +87,25 @@ def main():
         print(f"Pradinis taškas: {point}")
         print(f"Funkcijos reikšmė: {f(point)}")
 
-        print(f"Lygibiniai apribojimai:")
+        print("Lygybinių apribojimų reikšmės:")
         print(f"{eq_constraint(point)}")
 
-        print(f"Nelygibiniai apribojimai:")
+        print("Nelygybinių apribijimų reikšmės:")
         print(f"{ineq_constraint1(point)}")
         print(f"{ineq_constraint2(point)}")
         print(f"{ineq_constraint3(point)}")
 
-        print(f"Optimization: {optimize(point, eqc, ineqc)}")
+        print("---------------")
+        print("Kvadratinės baudos funkcijos reikšmė: ")
+        print(f"kai r = 1: {b(point, 1, eqc, ineqc)}")
+        print(f"kai r = 5: {b(point, 5, eqc, ineqc)}")
+        print(f"kai r = 25: {b(point,25, eqc, ineqc)}")
+        print(f"kai r = 0.2: {b(point,0.2, eqc, ineqc)}")
+        print(f"kai r = 0.04: {b(point,0.04, eqc, ineqc)}")
+
+        print(
+            f"Minumumo taškas ir funkcijos iškvietimų skaičius: {optimize(point, eqc, ineqc)}"
+        )
 
 
 if __name__ == "__main__":
