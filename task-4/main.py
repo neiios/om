@@ -93,6 +93,9 @@ def optimize_linear_program(full_table: [TableRow], var_count: int) -> None:
 
         adjust_table(full_table, pivot_row_index, pivot_col_index)
 
+        if verbose:
+            input("Waiting for input. Press any key...")
+
     column_sums = [
         sum(row.cf[i] for row in full_table) for i in range(len(full_table[0].cf))
     ]
